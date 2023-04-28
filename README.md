@@ -1,37 +1,97 @@
-# go-link-jump
+<p align="center"><img src="https://www.goravel.dev/logo.png" width="300"></p>
 
-#### 介绍
-goravel 开发的短连接跳转
+English | [中文](./README_zh.md)
 
-#### 软件架构
-软件架构说明
+## About Goravel
 
+Goravel is a web application framework with complete functions and good scalability. As a starting scaffolding to help
+Gopher quickly build their own applications.
 
-#### 安装教程
+The framework style is consistent with [Laravel](https://github.com/laravel/laravel), let Phper don't need to learn a
+new framework, but also happy to play around Golang! Tribute Laravel!
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+Welcome to star, PR and issues！
 
-#### 使用说明
+## Getting started
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```
+// Generate APP_KEY
+go run . artisan key:generate
 
-#### 参与贡献
+// Route
+facades.Route.Get("/", userController.Show)
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+// ORM
+facades.Orm.Query().With("Author").First(&user)
 
+// Task Scheduling
+facades.Schedule.Command("send:emails name").EveryMinute()
 
-#### 特技
+// Log
+facades.Log.Debug(message)
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+// Cache
+value := facades.Cache.Get("goravel", "default")
+
+// Queues
+err := facades.Queue.Job(&jobs.Test{}, []queue.Arg{}).Dispatch()
+```
+
+## Documentation
+
+Online documentation [https://www.goravel.dev](https://www.goravel.dev)
+
+Example [https://github.com/goravel/example](https://github.com/goravel/example)
+
+> To optimize the documentation, please submit a PR to the documentation
+> repository [https://github.com/goravel/docs](https://github.com/goravel/docs)
+
+## Main Function
+
+- [x] Config
+- [x] Http
+- [x] Authentication
+- [x] Authorization
+- [x] Orm
+- [x] Migrate
+- [x] Logger
+- [x] Cache
+- [x] Grpc
+- [x] Artisan Console
+- [x] Task Scheduling
+- [x] Queue
+- [x] Event
+- [x] FileStorage
+- [x] Mail
+- [x] Validation
+- [x] Mock
+- [x] Hash
+- [x] Crypt
+
+## Roadmap
+
+[For Detail](https://github.com/goravel/goravel/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+
+## Contributors
+
+This project exists thanks to all the people who contribute.
+
+<a href="https://github.com/hwbrzzl" target="_blank"><img src="https://avatars.githubusercontent.com/u/24771476?v=4" width="48" height="48"></a>
+<a href="https://github.com/DevHaoZi" target="_blank"><img src="https://avatars.githubusercontent.com/u/115467771?v=4" width="48" height="48"></a>
+<a href="https://github.com/merouanekhalili" target="_blank"><img src="https://avatars.githubusercontent.com/u/1122628?v=4" width="48" height="48"></a>
+<a href="https://github.com/hongyukeji" target="_blank"><img src="https://avatars.githubusercontent.com/u/23145983?v=4" width="48" height="48"></a>
+<a href="https://github.com/sidshrivastav" target="_blank"><img src="https://avatars.githubusercontent.com/u/28773690?v=4" width="48" height="48"></a>
+<a href="https://github.com/Juneezee" target="_blank"><img src="https://avatars.githubusercontent.com/u/20135478?v=4" width="48" height="48"></a>
+<a href="https://github.com/dragoonchang" target="_blank"><img src="https://avatars.githubusercontent.com/u/1432336?v=4" width="48" height="48"></a>
+
+## Group
+
+Welcome more discussion in Telegram.
+
+[https://t.me/goravel](https://t.me/goravel)
+
+<p align="left"><img src="https://www.goravel.dev/telegram.jpg" width="200"></p>
+
+## License
+
+The Goravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
