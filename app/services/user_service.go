@@ -3,6 +3,8 @@ package services
 import (
 	"errors"
 	"fmt"
+	"github.com/goravel/framework/facades"
+	"goravel/app/models"
 )
 
 type UserService struct {
@@ -11,7 +13,7 @@ type UserService struct {
 
 func NewUserService() *UserService {
 	return &UserService{
-		//Inject services
+		//Inject model
 	}
 }
 
@@ -22,9 +24,16 @@ func (r *UserService) Show(id uint) {
 	}
 }
 
-func (r *UserService) Zx(name string) {
+func (r *UserService) Zx(name string) []models.User {
 
 	fmt.Println(name)
+
+	var user []models.User
+	facades.Orm.Query().Get(&user)
+
+	fmt.Println(user)
+
+	return user
 }
 
 func Zxxx(name string) {

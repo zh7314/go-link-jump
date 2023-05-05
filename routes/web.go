@@ -13,7 +13,9 @@ func Web() {
 			"Hello": "Goravel",
 		})
 	})
+	//userController := controllers.NewUserController()
 
-	userController := controllers.NewUserController()
+	userController := new(controllers.UserController)
 	facades.Route.Get("/users/{id}", userController.Show)
+	facades.Route.Get("/getData/{id}", userController.Zx)
 }
