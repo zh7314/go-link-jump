@@ -10,3 +10,7 @@ type User struct {
 	Avatar string
 	orm.SoftDeletes
 }
+
+func (r *User) TableName() string {
+	return "user"
+}

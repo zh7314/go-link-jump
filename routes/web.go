@@ -2,9 +2,9 @@ package routes
 
 import (
 	"github.com/goravel/framework/contracts/http"
+	"github.com/goravel/framework/contracts/route"
 	"github.com/goravel/framework/facades"
-
-	"goravel/app/http/controllers"
+	"goravel/app/http/controllers/api"
 )
 
 func Web() {
@@ -13,9 +13,15 @@ func Web() {
 			"Hello": "Goravel",
 		})
 	})
-	//userController := controllers.NewUserController()
 
-	userController := new(controllers.UserController)
-	facades.Route.Get("/users/{id}", userController.Show)
-	facades.Route.Get("/getData/{id}", userController.Zx)
+	//facades.Route.Get("/p/{id}", controllers.NewJumpController().doJump)
+	//jumpController := api.NewJumpController()
+	//facades.Route.Get("/p/{id}", jumpController.DoJump)
+	facades.Route.Get("/p/{id}", api.NewJumpController().DoJump)
+
+	//facades.Route.Prefix("api").Get("/", userController.Show)
+
+	facades.Route.Group(func(route route.Route) {
+		route.Get("group/{id}", api.NewJumpController().DoJump)
+	})
 }

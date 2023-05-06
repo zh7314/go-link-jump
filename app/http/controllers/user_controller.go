@@ -7,11 +7,13 @@ import (
 
 type UserController struct {
 	//Dependent services
+	userService services.UserService
 }
 
 func NewUserController() *UserController {
 	return &UserController{
 		//Inject services
+
 	}
 }
 
@@ -23,8 +25,14 @@ func (r *UserController) Show(ctx http.Context) {
 
 func (r *UserController) Zx(ctx http.Context) {
 
-	var userService services.UserService
-	data := userService.Zx("ssss")
+	//userService := services.NewUserService()
+
+	//var userService services.UserService
+	data := r.userService.Zx("ssss")
+
+	//r := reflect.TypeOf(data)
+	//
+	//fmt.Println(r.Name(), r.Kind())
 
 	ctx.Response().Success().Json(data)
 }

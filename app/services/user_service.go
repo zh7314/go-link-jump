@@ -35,7 +35,17 @@ func (r *UserService) Zx(name string) []models.User {
 
 	return user
 }
+func (r *UserService) Zxx(name string) []models.User {
 
+	fmt.Println(name)
+
+	var user []models.User
+	facades.Orm.Query().Get(&user)
+
+	fmt.Println(user)
+
+	return user
+}
 func Zxxx(name string) {
 
 	fmt.Println(name)
