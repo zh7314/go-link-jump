@@ -26,5 +26,7 @@ func (r *JumpController) DoJump(ctx http.Context) {
 
 	data := jumpService.GetData()
 
+	//db, err := facades.Orm.Connection("mysql").DB()
+
 	ctx.Response().Success().Json(data)
 }
