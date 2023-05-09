@@ -5,7 +5,8 @@ import (
 	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/facades"
 	"goravel/app/services"
-	"time"
+	"reflect"
+	"strings"
 )
 
 type JumpController struct {
@@ -20,23 +21,37 @@ func NewJumpController() *JumpController {
 
 func (r *JumpController) DoJump(ctx http.Context) {
 
-	id := ctx.Request().Input("id")
+	str_id := ctx.Request().Input("id")
 	//id, err := strconv.Atoi(ctx.Request().Input("id"))
-	//if err != nil {
-	//	fmt.Println(id)
-	//}
-	key := services.NewJumpService().Key + id
+	if len(strings.TrimSpace(str_id)) == 0 {
+		fmt.Println(str_id)
+		fmt.Println("查询条件不能为空")
+	}
+	key := services.NewJumpService().Key + str_id
 	fmt.Println(key)
 
-	err := facades.Cache.Put(key, "2222222222222222222", 500*time.Second)
-	fmt.Println(err)
-
 	isHas := facades.Cache.Has(key)
-	fmt.Println(isHas)
+	if isHas {
+		fmt.Println(key)
+		fmt.Println("key存在")
+	}
 
-	value := facades.Cache.Get(key)
+	//err := facades.Cache.Put(key, "2222222222222222222", -1*time.Second)
+	//if err != nil {
+	//	fmt.Println("保存失败")
+	//}
 
-	ctx.Response().Success().Json(value)
+	res := facades.Cache.Get(key)
+
+	zx := reflect.TypeOf(res)
+	fmt.Println("类型：")
+	fmt.Println(zx.Name(), zx.Kind())
+
+	if len(strings.TrimSpace(res)) == 0 {
+		fmt.Println("url为空")
+	}
+
+	ctx.Response().Success().Json(res)
 }
 
 func (r *JumpController) GetData(ctx http.Context) {

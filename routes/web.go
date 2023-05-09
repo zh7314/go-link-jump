@@ -17,7 +17,9 @@ func Web() {
 	//facades.Route.Get("/p/{id}", controllers.NewJumpController().doJump)
 	//jumpController := api.NewJumpController()
 	//facades.Route.Get("/p/{id}", jumpController.DoJump)
+
 	facades.Route.Get("/p/{id}", api.NewJumpController().DoJump)
+	facades.Route.Get("/getData", api.NewJumpController().GetData)
 
 	//facades.Route.Prefix("api").Get("/", userController.Show)
 

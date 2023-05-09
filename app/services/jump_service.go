@@ -5,7 +5,7 @@ import (
 	"goravel/app/models"
 )
 
-const jumpKey = "JumpLink_"
+const jumpKey = "JumpLink:"
 
 type JumpService struct {
 	//Dependent services
