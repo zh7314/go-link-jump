@@ -5,7 +5,7 @@ import (
 	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/facades"
 	"goravel/app/services"
-	"reflect"
+	"net/url"
 	"strings"
 )
 
@@ -41,17 +41,30 @@ func (r *JumpController) DoJump(ctx http.Context) {
 	//	fmt.Println("保存失败")
 	//}
 
-	res := facades.Cache.Get(key)
+	res := facades.Cache.GetString(key)
 
-	zx := reflect.TypeOf(res)
-	fmt.Println("类型：")
-	fmt.Println(zx.Name(), zx.Kind())
-
-	if len(strings.TrimSpace(res)) == 0 {
-		fmt.Println("url为空")
+	//res := facades.Cache.Get(key).(string)
+	if len(res) == 0 {
+		fmt.Println("值为空")
+		fmt.Println(res)
 	}
 
-	ctx.Response().Success().Json(res)
+	fmt.Println(res)
+
+	//zx := reflect.TypeOf(res)
+	//fmt.Println("类型：")
+	//fmt.Println(zx.Name(), zx.Kind())
+
+	//if len(strings.TrimSpace(res)) == 0 {
+	//	fmt.Println("url为空")
+	//}
+	query, err := url.QueryUnescape(res)
+	if err != nil {
+		fmt.Println("解析失败")
+	}
+	//ctx.Response().Success().Json(query)
+
+	ctx.Response().Redirect(http.StatusMovedPermanently, query)
 }
 
 func (r *JumpController) GetData(ctx http.Context) {
