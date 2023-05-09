@@ -5,13 +5,17 @@ import (
 	"goravel/app/models"
 )
 
+const jumpKey = "JumpLink_"
+
 type JumpService struct {
 	//Dependent services
+	Key string
 }
 
 func NewJumpService() *JumpService {
 	return &JumpService{
 		//Inject model
+		Key: jumpKey,
 	}
 }
 
