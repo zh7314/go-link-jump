@@ -36,11 +36,6 @@ func (r *JumpController) DoJump(ctx http.Context) {
 		fmt.Println("key存在")
 	}
 
-	//err := facades.Cache.Put(key, "2222222222222222222", -1*time.Second)
-	//if err != nil {
-	//	fmt.Println("保存失败")
-	//}
-
 	res := facades.Cache.GetString(key)
 
 	//res := facades.Cache.Get(key).(string)
@@ -48,9 +43,6 @@ func (r *JumpController) DoJump(ctx http.Context) {
 		fmt.Println("值为空")
 		fmt.Println(res)
 	}
-
-	fmt.Println(res)
-
 	//zx := reflect.TypeOf(res)
 	//fmt.Println("类型：")
 	//fmt.Println(zx.Name(), zx.Kind())
@@ -63,14 +55,5 @@ func (r *JumpController) DoJump(ctx http.Context) {
 		fmt.Println("解析失败")
 	}
 	//ctx.Response().Success().Json(query)
-
 	ctx.Response().Redirect(http.StatusMovedPermanently, query)
-}
-
-func (r *JumpController) GetData(ctx http.Context) {
-
-	jumpService := services.NewJumpService()
-	data := jumpService.GetData()
-
-	ctx.Response().Success().Json(data)
 }
