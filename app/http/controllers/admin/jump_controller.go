@@ -3,11 +3,7 @@ package admin
 import (
 	"fmt"
 	"github.com/goravel/framework/contracts/http"
-	"goravel/app/models"
 	"goravel/app/services"
-	"net/url"
-	"strings"
-	"time"
 )
 
 type JumpController struct {
@@ -30,27 +26,11 @@ func (r *JumpController) GetData(ctx http.Context) {
 
 func (r *JumpController) AddLink(ctx http.Context) {
 
-	//err := facades.Cache.Put(key, "2222222222222222222", -1*time.Second)
-	//if err != nil {
-	//	fmt.Println("保存失败")
-	//}
+	url := ctx.Request().Input("url")
+	end_time := ctx.Request().Input("end_time")
 
-	str_url := ctx.Request().Input("url")
-	str_end_time := ctx.Request().Input("end_time")
-
-	if len(strings.TrimSpace(str_url)) == 0 {
-		fmt.Println(str_url)
-		fmt.Println("查询条件不能为空")
-	}
-	if len(strings.TrimSpace(str_end_time)) == 0 {
-		fmt.Println(str_end_time)
-		fmt.Println("查询条件不能为空")
-	}
-
-	var jump models.Jump
-	jump.JumpUrl = url.QueryEscape(str_url)
-
-	now := time.Now()
-	start := now.Format("2006-01-02 15:04:05")
-	fmt.Println(start)
+	jumpService := services.NewJumpService()
+	data, ok := jumpService.AddLink(url, end_time)
+	fmt.Println(ok)
+	fmt.Println(data)
 }

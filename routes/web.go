@@ -23,7 +23,7 @@ func Web() {
 
 	facades.Route.Get("/admin/getData", admin.NewJumpController().GetData)
 
-	facades.Route.Get("/admin/AddLink", admin.NewJumpController().AddLink)
+	facades.Route.Post("/admin/AddLink", admin.NewJumpController().AddLink)
 
 	//facades.Route.Prefix("api").Get("/", userController.Show)
 
