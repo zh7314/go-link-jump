@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/axgle/mahonia"
+	"hash/crc32"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -34,6 +35,11 @@ func ErrorToString(r interface{}) string {
 	default:
 		return r.(string)
 	}
+}
+
+func CRC32(input string) uint32 {
+	bytes := []byte(input)
+	return crc32.ChecksumIEEE(bytes)
 }
 
 func GetIp(r *http.Request) string {
