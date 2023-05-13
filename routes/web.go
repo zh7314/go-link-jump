@@ -4,8 +4,10 @@ import (
 	"github.com/goravel/framework/contracts/http"
 	"github.com/goravel/framework/contracts/route"
 	"github.com/goravel/framework/facades"
+	sys_middleware "github.com/goravel/framework/http/middleware"
 	"goravel/app/http/controllers/admin"
 	"goravel/app/http/controllers/api"
+	"goravel/app/http/middleware"
 )
 
 func Web() {
@@ -14,20 +16,19 @@ func Web() {
 			"Hello": "Goravel",
 		})
 	})
+	//api
+	facades.Route.Middleware(middleware.Recovery()).Middleware(sys_middleware.Cors()).Middleware(middleware.ApiLog()).Group(func(route route.Route) {
 
-	//facades.Route.Get("/p/{id}", controllers.NewJumpController().doJump)
-	//jumpController := api.NewJumpController()
-	//facades.Route.Get("/p/{id}", jumpController.DoJump)
+		facades.Route.Get("/test", api.NewTestController().Test)
 
-	facades.Route.Get("/p/{id}", api.NewJumpController().DoJump)
-
-	facades.Route.Get("/admin/getData", admin.NewJumpController().GetData)
-
-	facades.Route.Post("/admin/AddLink", admin.NewJumpController().AddLink)
-
-	//facades.Route.Prefix("api").Get("/", userController.Show)
-
-	facades.Route.Group(func(route route.Route) {
-		route.Get("group/{id}", api.NewJumpController().DoJump)
+		facades.Route.Get("/p/{id}", api.NewJumpController().DoJump)
 	})
+
+	//admin
+	facades.Route.Middleware(sys_middleware.Cors()).Middleware(middleware.ApiLog()).Group(func(route route.Route) {
+
+		facades.Route.Middleware().Get("/admin/getData", admin.NewJumpController().GetData)
+		facades.Route.Post("/admin/AddLink", admin.NewJumpController().AddLink)
+	})
+
 }
