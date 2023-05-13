@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/goravel/framework/contracts/http"
+	"goravel/app/utils"
 )
 
 type TestController struct {
@@ -16,7 +17,8 @@ func NewTestController() *TestController {
 
 func (r *TestController) Test(ctx http.Context) {
 
-	panic("test1111111")
-	panic("test22222")
+	//panic("test1111111")
+	//panic("test22222")
 	//ctx.Response().Success().Json()
+	utils.Success(ctx, 111, "成功")
 }

@@ -3,6 +3,7 @@ package middleware
 import (
 	"fmt"
 	"github.com/goravel/framework/contracts/http"
+	"goravel/app/utils"
 )
 
 func Recovery() http.Middleware {
@@ -10,10 +11,7 @@ func Recovery() http.Middleware {
 		defer func() {
 			if r := recover(); r != nil {
 				fmt.Println("系统内部错误")
-
-				ctx.Response().Json(http.StatusOK, http.Json{
-					"msg": r,
-				})
+				utils.Fail(ctx, "", utils.ErrorToString(r))
 			}
 		}()
 

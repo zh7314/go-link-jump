@@ -27,7 +27,7 @@ import (
 	"unsafe"
 )
 
-func errorToString(r interface{}) string {
+func ErrorToString(r interface{}) string {
 	switch v := r.(type) {
 	case error:
 		return v.Error()

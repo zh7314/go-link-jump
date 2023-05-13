@@ -3,7 +3,7 @@ package services
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
+	"errors"
 	"github.com/goravel/framework/facades"
 	"goravel/app/models"
 	"hash/crc32"
@@ -35,13 +35,38 @@ func (r *JumpService) GetData() []models.Jump {
 	return jump
 }
 
+func (r *JumpService) DoJump(id string) (jumpUrl string, ok error) {
+
+	if len(strings.TrimSpace(id)) == 0 {
+		return "", errors.New("查询条件不能为空")
+	}
+
+	key := r.Key + id
+	isHas := facades.Cache.Has(key)
+	if isHas {
+		return "", errors.New("查询key存在")
+	}
+
+	res := facades.Cache.GetString(key)
+	if len(res) == 0 {
+		return "", errors.New("查询值为空")
+	}
+
+	jump, err := url.QueryUnescape(res)
+	if err != nil {
+		return "", err
+	}
+
+	return jump, nil
+}
+
 func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok error) {
 
 	if len(strings.TrimSpace(url_str)) == 0 {
-		fmt.Println("查询条件不能为空")
+		return false, errors.New("url不能为空")
 	}
 	if len(strings.TrimSpace(end_time)) == 0 {
-		fmt.Println("查询条件不能为空")
+		return false, errors.New("end_time不能为空")
 	}
 
 	now := time.Now()
@@ -49,12 +74,14 @@ func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok err
 
 	end, err := time.Parse("2006-01-02 15:04:05", end_time)
 	if err != nil {
-		fmt.Println("解析结束时间错误")
+		return false, errors.New("解析结束时间错误")
 	}
+
 	end_time_unix := end.Unix()
 	if start_time > end_time_unix {
-		fmt.Println("结束时间不能当前时间")
+		return false, errors.New("结束时间不能大于当前时间")
 	}
+
 	count := end_time_unix - start_time
 
 	var jump models.Jump
@@ -63,7 +90,7 @@ func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok err
 
 	err1 := facades.Orm.Query().Save(&jump)
 	if err1 != nil {
-		fmt.Println("保存失败")
+		return false, errors.New("保存失败")
 	}
 
 	str_id := strconv.FormatInt(int64(jump.ID), 10)
@@ -72,14 +99,15 @@ func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok err
 
 	err2 := facades.Orm.Query().Save(&jump)
 	if err2 != nil {
-		fmt.Println("保存失败")
+		return false, err2
 	}
 
 	key := r.Key + jump.Md5Data
 	err3 := facades.Cache.Put(key, jump.JumpUrl, time.Duration(count)*time.Second)
 	if err3 != nil {
-		fmt.Println("redis保存失败")
+		return false, err3
 	}
+	
 	return true, ok
 }
 
