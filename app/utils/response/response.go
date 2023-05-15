@@ -1,12 +1,13 @@
-package utils
+package response
 
 import (
 	"github.com/goravel/framework/contracts/http"
+	"goravel/app/utils/global"
 )
 
 func Success(ctx http.Context, data interface{}, msg string) {
 	ctx.Response().Json(http.StatusOK, http.Json{
-		"code": 200,
+		"code": global.SUCCESS,
 		"data": data,
 		"msg":  msg,
 	})
@@ -14,7 +15,7 @@ func Success(ctx http.Context, data interface{}, msg string) {
 
 func Fail(ctx http.Context, data interface{}, msg string) {
 	ctx.Response().Json(http.StatusOK, http.Json{
-		"code": 400,
+		"code": global.FAIL,
 		"data": data,
 		"msg":  msg,
 	})
@@ -22,7 +23,7 @@ func Fail(ctx http.Context, data interface{}, msg string) {
 
 func Grant(ctx http.Context, data interface{}, msg string) {
 	ctx.Response().Json(http.StatusOK, http.Json{
-		"code": 401,
+		"code": global.GRANT,
 		"data": data,
 		"msg":  msg,
 	})
