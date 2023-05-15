@@ -16,6 +16,7 @@ func Web() {
 			"Hello": "Goravel",
 		})
 	})
+
 	//api
 	facades.Route.Middleware(middleware.Recovery()).Middleware(sys_middleware.Cors()).Middleware(middleware.ApiLog()).Group(func(route route.Route) {
 

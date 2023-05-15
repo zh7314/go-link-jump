@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/goravel/framework/contracts/http"
 	"goravel/app/services"
-	"goravel/app/utils"
+	"goravel/app/utils/response"
 )
 
 type JumpController struct {
@@ -22,7 +22,7 @@ func (r *JumpController) DoJump(ctx http.Context) {
 
 	jumpUrl, ok := services.NewJumpService().DoJump(str_id)
 	if ok != nil {
-		utils.Fail(ctx, "", ok.Error())
+		response.Fail(ctx, "", ok.Error())
 	} else {
 		ctx.Response().Redirect(http.StatusMovedPermanently, jumpUrl)
 	}
