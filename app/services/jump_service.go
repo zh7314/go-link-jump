@@ -15,18 +15,16 @@ const jumpKey = "JumpLink:"
 
 type JumpService struct {
 	//Dependent services
-	Key string
 }
 
 func NewJumpService() *JumpService {
 	return &JumpService{
 		//Inject model
-		Key: jumpKey,
 	}
 }
 
-func (r *JumpService) GetData() []models.Jump {
-	var jump []models.Jump
+func (r *JumpService) GetData() []models.JumpLink {
+	var jump []models.JumpLink
 	facades.Orm.Query().Get(&jump)
 
 	return jump
@@ -38,10 +36,10 @@ func (r *JumpService) DoJump(id string) (jumpUrl string, ok error) {
 		return "", errors.New("查询条件不能为空")
 	}
 
-	key := r.Key + id
+	key := jumpKey + id
 	isHas := facades.Cache.Has(key)
-	if isHas {
-		return "", errors.New("查询key存在")
+	if !isHas {
+		return "", errors.New("查询key不存在")
 	}
 
 	res := facades.Cache.GetString(key)
@@ -81,8 +79,8 @@ func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok err
 
 	count := end_time_unix - start_time
 
-	var jump models.Jump
-	jump.JumpUrl = url.QueryEscape(url_str)
+	var jump models.JumpLink
+	jump.JumpURL = url.QueryEscape(url_str)
 	jump.EndTime = end
 
 	err1 := facades.Orm.Query().Save(&jump)
@@ -92,18 +90,18 @@ func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok err
 
 	str_id := strconv.FormatInt(int64(jump.ID), 10)
 	m_id := utils.CRC32(str_id)
-	jump.Md5Data = strconv.FormatInt(int64(m_id), 10)
+	jump.HashKey = strconv.FormatInt(int64(m_id), 10)
 
 	err2 := facades.Orm.Query().Save(&jump)
 	if err2 != nil {
 		return false, err2
 	}
 
-	key := r.Key + jump.Md5Data
-	err3 := facades.Cache.Put(key, jump.JumpUrl, time.Duration(count)*time.Second)
+	key := jumpKey + jump.HashKey
+	err3 := facades.Cache.Put(key, jump.JumpURL, time.Duration(count)*time.Second)
 	if err3 != nil {
 		return false, err3
 	}
 
-	return true, ok
+	return true, nil
 }
