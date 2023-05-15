@@ -16,5 +16,6 @@ func (kernel Kernel) Middleware() []http.Middleware {
 		sys_middleware.Cors(),
 		middleware.ApiLog(),
 		middleware.Recovery(),
+		middleware.AdminCheck(),
 	}
 }

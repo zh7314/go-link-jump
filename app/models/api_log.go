@@ -4,13 +4,13 @@ import (
 	"github.com/goravel/framework/database/orm"
 )
 
-type User struct {
+type ApiLog struct {
 	orm.Model
+	orm.SoftDeletes
 	Name   string
 	Avatar string
-	orm.SoftDeletes
 }
 
-func (r *User) TableName() string {
-	return "user"
+func (r *ApiLog) TableName() string {
+	return "api_log"
 }
