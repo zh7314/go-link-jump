@@ -33,7 +33,9 @@ func (r *JumpController) AddLink(ctx http.Context) {
 	data, ok := services.NewJumpService().AddLink(url, end_time)
 	if ok != nil {
 		response.Fail(ctx, "", ok.Error())
+		return
 	} else {
 		response.Success(ctx, data, "增加成功")
+		return
 	}
 }

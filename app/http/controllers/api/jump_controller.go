@@ -23,7 +23,9 @@ func (r *JumpController) DoJump(ctx http.Context) {
 	jumpUrl, ok := services.NewJumpService().DoJump(str_id)
 	if ok != nil {
 		response.Fail(ctx, "", ok.Error())
+		return
 	} else {
 		ctx.Response().Redirect(http.StatusMovedPermanently, jumpUrl)
+		return
 	}
 }

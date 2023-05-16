@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/goravel/framework/contracts/http"
 	"hash/crc32"
 )
 
@@ -16,4 +17,9 @@ func ErrorToString(r interface{}) string {
 func CRC32(input string) uint32 {
 	bytes := []byte(input)
 	return crc32.ChecksumIEEE(bytes)
+}
+
+func GetIP(ctx *http.Context) string {
+
+	return ""
 }
