@@ -3,18 +3,15 @@ package middleware
 import (
 	"fmt"
 	"github.com/goravel/framework/contracts/http"
-	"goravel/app/utils"
 )
 
 func ApiLog() http.Middleware {
 	return func(ctx http.Context) {
 
 		method := ctx.Request().Method()
-		url := ctx.Request().Url()
-		path := ctx.Request().Path()
-		ip := utils.GetIP(&ctx)
-
-		ctx.Request().Origin()
+		//url := ctx.Request().Url()
+		//path := ctx.Request().Path()
+		//ip := utils.GetIP(&ctx)
 
 		// 目前系统基本只支持Post Get Options
 		if method == http.MethodGet {
@@ -25,13 +22,19 @@ func ApiLog() http.Middleware {
 			fmt.Println(method)
 		}
 
-		fmt.Println(method)
-		fmt.Println(url)
-		fmt.Println(path)
-		fmt.Println(ip)
+		//fmt.Println(method)
+		//fmt.Println(url)
+		//fmt.Println(path)
+		//fmt.Println(ip)
+
+		fmt.Println(ctx.Request().Origin())
+
+		fmt.Println(ctx.Request().Origin())
+		fmt.Println("-----------------------------------------\n")
+		fmt.Println(ctx.Response().Origin().Header())
+		fmt.Println(ctx.Response().Origin().Body())
 
 		ctx.Request().Next()
 
-		ctx.Response().Success()
 	}
 }

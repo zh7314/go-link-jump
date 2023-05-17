@@ -23,3 +23,7 @@ func GetIP(ctx *http.Context) string {
 
 	return ""
 }
+
+func GetAllRequestParameters(ctx *http.Context) {
+
+}
