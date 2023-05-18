@@ -26,7 +26,7 @@ func Web() {
 	})
 
 	//admin
-	facades.Route.Middleware(sys_middleware.Cors()).Middleware(middleware.ApiLog()).Group(func(route route.Route) {
+	facades.Route.Middleware(middleware.Recovery()).Middleware(sys_middleware.Cors()).Middleware(middleware.ApiLog()).Group(func(route route.Route) {
 
 		facades.Route.Middleware().Get("/admin/getData", admin.NewJumpController().GetData) //获取跳转数据
 		facades.Route.Post("/admin/AddLink", admin.NewJumpController().AddLink)             //增加链接

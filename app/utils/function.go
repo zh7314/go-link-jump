@@ -1,8 +1,10 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/goravel/framework/contracts/http"
 	"hash/crc32"
+	"strings"
 )
 
 func ErrorToString(r interface{}) string {
@@ -19,11 +21,28 @@ func CRC32(input string) uint32 {
 	return crc32.ChecksumIEEE(bytes)
 }
 
-func GetIP(ctx *http.Context) string {
+func GetIP(ctx http.Context) string {
 
-	return ""
+	ip := strings.TrimSpace(ctx.Request().Header("X-Forwarded-For", "127.0.0.1"))
+	if ip != "" {
+		return ip
+	}
+	ip = strings.TrimSpace(ctx.Request().Header("X-Real-Ip", "127.0.0.1"))
+	if ip != "" {
+		return ip
+	}
+	ip = strings.TrimSpace(ctx.Request().Ip())
+	if ip != "" {
+		return ip
+	}
+	return "127.0.0.1"
 }
 
-func GetAllRequestParameters(ctx *http.Context) {
+// 检索顺序为：json, form, query, route
+func GetAllRequestParameters(ctx http.Context) {
 
+	//ctx.Request().QueryMap()
+	//ctx.Request().Input()
+
+	fmt.Println(ctx.Value("zx"))
 }

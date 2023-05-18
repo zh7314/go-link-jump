@@ -18,10 +18,12 @@ func NewJumpController() *JumpController {
 
 func (r *JumpController) GetData(ctx http.Context) {
 
+	//fmt.Println(ctx.Value("zx"))
 	jumpService := services.NewJumpService()
 	data := jumpService.GetData()
 
 	response.Success(ctx, data, "获取成功")
+	return
 }
 
 func (r *JumpController) AddLink(ctx http.Context) {
