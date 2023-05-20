@@ -16,7 +16,7 @@ type APIUser struct {
 	CreateTime time.Time      `gorm:"column:create_time;not null;comment:创建时间" json:"create_time"`
 	UpdateTime time.Time      `gorm:"column:update_time;not null;comment:更新时间" json:"update_time"`
 	IPList     string         `gorm:"column:ip_list;comment:api接口访问ip列表" json:"ip_list"`
-	Status     bool           `gorm:"column:status;not null;default:10;comment:10默认未启用20启用30禁止" json:"status"`
+	Status     int            `gorm:"column:status;not null;default:10;comment:10默认未启用20启用30禁止" json:"status"`
 	EndDate    time.Time      `gorm:"column:end_date;comment:api终止使用日期" json:"end_date"`
 	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;comment:是否删除" json:"deleted_at"`
 }

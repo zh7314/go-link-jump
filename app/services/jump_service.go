@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const jumpKey = "JumpLink:"
+const jumpKey string = "JumpLink:"
 
 type JumpService struct {
 	//Dependent services
@@ -21,6 +21,10 @@ func NewJumpService() *JumpService {
 	return &JumpService{
 		//Inject model
 	}
+}
+
+func (r *JumpService) GetJumpKey() string {
+	return jumpKey
 }
 
 func (r *JumpService) GetData() []models.JumpLink {

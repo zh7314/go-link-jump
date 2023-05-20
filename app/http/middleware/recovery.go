@@ -16,6 +16,8 @@ func Recovery() http.Middleware {
 			}
 		}()
 
+		fmt.Println("Recovery")
+
 		ctx.Request().Next()
 	}
 }

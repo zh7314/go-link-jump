@@ -2,27 +2,32 @@ package middleware
 
 import (
 	"errors"
+	"fmt"
 	"github.com/goravel/framework/contracts/http"
+	"github.com/goravel/framework/facades"
+	"goravel/app/services"
+	"goravel/app/utils"
 	"goravel/app/utils/global"
+	"goravel/app/utils/response"
 )
 
 func AdminCheck() http.Middleware {
 	return func(ctx http.Context) {
 
-		//ctx.WithValue("user", "Goravel")
+		//fmt.Println("AdminCheck")
 
-		//method := ctx.Request().Method()
+		_, err := check(ctx)
+		if err != nil {
+			response.AbortFail(ctx, "", err.Error())
+		}
 
-		//var token string
-
-		//if method == http.MethodPost {
-		//
-		//
-		//} else if method == http.MethodGet {
-		//
-		//} else {
-		//	fmt.Println(method)
-		//}
+		defer func() {
+			if r := recover(); r != nil {
+				fmt.Println("系统内部错误")
+				response.Fail(ctx, "", utils.ErrorToString(r))
+				return
+			}
+		}()
 
 		ctx.Request().Next()
 	}
@@ -36,6 +41,25 @@ func check(ctx http.Context) (res bool, ok error) {
 	if token == "" {
 		return false, errors.New("token不能为空")
 	}
+	//fmt.Println(token)
+
+	apiService := services.NewApiService()
+
+	key := apiService.GetTokenKey() + token
+
+	has := facades.Cache.Has(key)
+	if !has {
+		return false, errors.New("查询api key不存在")
+	}
+
+	value := facades.Cache.GetString(key)
+	//fmt.Println(value)
+
+	if len(value) == 0 {
+		return false, errors.New("api key不存在")
+	}
+
+	ctx.WithValue(apiService.GetApiKey(), value)
 
 	return true, nil
 }
