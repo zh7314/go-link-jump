@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2023-05-17 16:59:34
+-- 生成日期： 2023-05-20 16:55:11
 -- 服务器版本： 8.0.12
 -- PHP 版本： 8.0.2
 
@@ -67,6 +67,14 @@ CREATE TABLE `api_user` (
   `deleted_at` datetime DEFAULT NULL COMMENT '是否删除'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='接口用户表';
 
+--
+-- 转存表中的数据 `api_user`
+--
+
+INSERT INTO `api_user` (`id`, `api_key`, `api_secret`, `create_time`, `update_time`, `ip_list`, `status`, `end_date`, `deleted_at`) VALUES
+(1, 'key', 'secret', '2023-05-20 13:31:09', '2023-05-20 13:31:09', NULL, 10, NULL, NULL),
+(2, 'key111', 'secret1111', '2023-05-20 13:31:09', '2023-05-20 13:31:09', NULL, 10, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -88,8 +96,7 @@ CREATE TABLE `jump_link` (
 --
 
 INSERT INTO `jump_link` (`id`, `jump_url`, `hash_key`, `created_at`, `updated_at`, `deleted_at`, `end_time`) VALUES
-(31, 'https%3A%2F%2Fwww.cnblogs.com%2Fchenqionghe%2Fp%2F13409556.html', '3832313845', '2023-05-15 15:48:30', '2023-05-15 15:48:30', NULL, '2023-05-18 08:00:00'),
-(32, 'https%3A%2F%2Fwww.cnblogs.com%2Fchenqionghe%2Fp%2F13409556.html', '2103780943', '2023-05-15 15:48:31', '2023-05-15 15:48:31', NULL, '2023-05-18 08:00:00');
+(33, 'https%3A%2F%2Fwww.cnblogs.com%2Fchenqionghe%2Fp%2F13409556.html', '174200537', '2023-05-20 16:52:34', '2023-05-20 16:52:34', NULL, '2023-05-25 08:00:00');
 
 --
 -- 转储表的索引
@@ -127,13 +134,13 @@ ALTER TABLE `api_log`
 -- 使用表AUTO_INCREMENT `api_user`
 --
 ALTER TABLE `api_user`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `jump_link`
 --
 ALTER TABLE `jump_link`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
