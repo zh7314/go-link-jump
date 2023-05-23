@@ -14,8 +14,6 @@ import (
 func AdminCheck() http.Middleware {
 	return func(ctx http.Context) {
 
-		//fmt.Println("AdminCheck")
-
 		_, err := check(ctx)
 		if err != nil {
 			response.AbortFail(ctx, "", err.Error())

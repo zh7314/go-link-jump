@@ -16,6 +16,8 @@ func main() {
 			facades.Log.Errorf("Route run error: %v", err)
 		}
 	}()
+	// Start schedule by facades.Schedule
+	go facades.Schedule.Run()
 
 	select {}
 }

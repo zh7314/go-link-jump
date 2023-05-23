@@ -54,7 +54,7 @@ func (r *ApiService) GetToken(key string, secret string) (res string, err error)
 	}
 
 	md5 := str.GetRandomString(32)
-	
+
 	redisKey := apiToken + md5
 	err = facades.Cache.Put(redisKey, apiUser.ID, time.Duration(tokenTime)*time.Second)
 	if err != nil {

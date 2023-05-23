@@ -1,10 +1,11 @@
 package utils
 
 import (
-	"fmt"
 	"github.com/goravel/framework/contracts/http"
+	"goravel/app/utils/local"
 	"hash/crc32"
 	"strings"
+	"time"
 )
 
 func ErrorToString(r interface{}) string {
@@ -38,11 +39,15 @@ func GetIP(ctx http.Context) string {
 	return "127.0.0.1"
 }
 
-// 检索顺序为：json, form, query, route
-func GetAllRequestParameters(ctx http.Context) {
+func TimeToLocalTime(t time.Time) (res local.LocalTime, err error) {
+	return local.LocalTime(t), nil
+}
 
-	//ctx.Request().QueryMap()
-	//ctx.Request().Input()
+func LocalTimeToTime(t local.LocalTime) (res time.Time, err error) {
 
-	fmt.Println(ctx.Value("zx"))
+	time, err := time.Parse("2006-01-02 15:04:05", t.String())
+	if err != nil {
+		return res, err
+	}
+	return time, nil
 }

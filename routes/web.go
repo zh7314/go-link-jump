@@ -31,6 +31,6 @@ func Web() {
 	facades.Route.Prefix("admin").Middleware(sys_middleware.Cors(), middleware.AdminCheck(), middleware.Recovery()).Group(func(route route.Route) {
 		//注意 不要用 facades.Route.Post("/getData", admin.NewJumpController().GetData) 在下来，因为闭包导致中间件无法执行
 		route.Post("/getData", admin.NewJumpController().GetData) //获取跳转数据
-		route.Post("/AddLink", admin.NewJumpController().AddLink) //增加链接
+		route.Post("/addLink", admin.NewJumpController().AddLink) //增加链接
 	})
 }

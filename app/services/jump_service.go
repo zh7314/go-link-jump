@@ -2,9 +2,11 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"github.com/goravel/framework/facades"
 	"goravel/app/models"
 	"goravel/app/utils"
+	"goravel/app/utils/local"
 	"net/url"
 	"strconv"
 	"strings"
@@ -85,7 +87,8 @@ func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok err
 
 	var jump models.JumpLink
 	jump.JumpURL = url.QueryEscape(url_str)
-	jump.EndTime = end
+
+	jump.EndTime = local.LocalTime(end)
 
 	err1 := facades.Orm.Query().Save(&jump)
 	if err1 != nil {
@@ -108,4 +111,50 @@ func (r *JumpService) AddLink(url_str string, end_time string) (res bool, ok err
 	}
 
 	return true, nil
+}
+
+func (r *JumpService) ScanLink() error {
+
+	now := time.Now()
+	end := now.Format("2006-01-02 15:04:05")
+
+	var count int64
+	facades.Orm.Query().Model(&models.JumpLink{}).Where("end_time > ?", end).Count(&count)
+
+	if count > 0 {
+		var jumps []models.JumpLink
+		facades.Orm.Query().Where("end_time > ?", end).Get(&jumps)
+
+		for _, jump := range jumps {
+
+			key := jumpKey + jump.HashKey
+			fmt.Println(key)
+
+			isHas := facades.Cache.Has(key)
+			// 没有数据就重新写入到redis
+			if !isHas {
+				now := time.Now()
+				start_time := now.Unix()
+
+				end, err := time.Parse("2006-01-02 15:04:05", jump.EndTime.String())
+				if err != nil {
+					return err
+				}
+
+				end_time_unix := end.Unix()
+				if start_time > end_time_unix {
+					return errors.New("结束时间不能大于当前时间")
+				}
+
+				count := end_time_unix - start_time
+				err = facades.Cache.Put(key, jump.JumpURL, time.Duration(count)*time.Second)
+				if err != nil {
+					return err
+				}
+
+			}
+		}
+	}
+
+	return nil
 }
