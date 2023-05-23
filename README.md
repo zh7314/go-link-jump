@@ -4,9 +4,14 @@ golang >= 1.20
 redis   
 mysql 8.0
 
-### short id设置
-如果你想产出的ID看起来更习惯一点，但是short id的长度相当于来说也更长   
-`alter table jump_link AUTO_INCREMENT = 10000000;`
+### hash_key设置
+可能会出现hash碰撞，如果系统请求量大，请更换其他算法
+
+
+### 提供以下几个通用方法
+- 请求统一返回
+- 业务层panic业务处理
+- token中间件
 
 ### sql文件
-`sql\short-link-jump.sql`
+`doc\sql\short-link-jump.sql`

@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 	"github.com/goravel/framework/facades"
 	"goravel/app/models"
 	"goravel/app/utils"
@@ -128,7 +127,7 @@ func (r *JumpService) ScanLink() error {
 		for _, jump := range jumps {
 
 			key := jumpKey + jump.HashKey
-			fmt.Println(key)
+			//fmt.Println(key)
 
 			isHas := facades.Cache.Has(key)
 			// 没有数据就重新写入到redis
